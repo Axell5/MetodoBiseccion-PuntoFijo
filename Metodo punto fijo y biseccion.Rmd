@@ -1,0 +1,69 @@
+---
+title: "Metodos de punto fijo y biseccion"
+author: "Axel Caro"
+output: word_document
+---
+
+# Metodo de punto fijo
+
+```{r}
+
+pf <- function(f, x_inicial, e, iter){
+  k = 1
+  repeat{
+    x1 <- f(x_inicial)
+    dx <- abs(x1 - x_inicial)
+    x_inicial <- x1
+    cat("x_", k, "=", x1, "\n")
+    k = k + 1
+    if(dx < e || k > iter) break;
+  }
+  if(dx > e) {cat("NO CONVERGE")}
+  else{cat("X es aproximadamente", x1)
+  }
+}
+
+```
+
+```{r}
+
+# 2x / x - 5
+
+f = function(x) x^3 - x - 2
+pf(f, 0, 0, 10)
+```
+
+# Metodo de biseccion
+
+```{r}
+
+# Función que implementa el método de bisección
+bisection_method <- function(f, a, b, tol = 1e-8, max_iter = 100) {
+  if (f(a) * f(b) >= 0) {
+    stop("El método de bisección requiere que f(a) y f(b) tengan signos opuestos.")
+  }
+  iter <- 0
+  while ((b - a) / 2 > tol && iter < max_iter) {
+    c <- (a + b) / 2
+    if (f(c) == 0) {
+      break
+    } else if (f(a) * f(c) < 0) {
+      b <- c
+    } else {
+      a <- c
+    }
+    iter <- iter + 1
+  }
+  list(root = (a + b) / 2, iterations = iter)
+}
+```
+
+```{r}
+# Ejemplo de uso
+f <- function(x) 3*x^2 - 2*x + 5
+a <- 1
+b <- 2
+biseccion(f, a, b, e, iter)
+
+```
+
